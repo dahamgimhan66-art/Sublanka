@@ -1,113 +1,80 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
 <html lang="si">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SubLanka - Sinhala Subtitles</title>
+<meta name="theme-color" content="#080b12">
+<title>SubLanka | Sinhala Subtitles</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0f0f0f;color:#fff}
-header{background:#000;padding:15px;text-align:center;position:sticky;top:0;z-index:10;border-bottom:3px solid #ffcc00}
-header h1{color:#ffcc00;font-size:28px}
-header h1 span{color:#fff}
-.search-box{margin:15px auto;max-width:500px;display:flex}
-.search-box input{flex:1;padding:12px;border:none;border-radius:8px 0 0 8px;outline:none;font-size:16px}
-.search-box button{padding:12px 20px;background:#ffcc00;border:none;border-radius:0 8px 8px 0;font-weight:bold;cursor:pointer}
-.wa-btn{display:block;background:#25D366;color:#fff;text-align:center;padding:12px;margin:10px 15px;border-radius:10px;text-decoration:none;font-weight:bold}
-.categories{display:flex;gap:8px;overflow-x:auto;padding:10px 15px}
-.categories button{background:#222;color:#fff;border:1px solid #444;padding:8px 15px;border-radius:20px;cursor:pointer;white-space:nowrap}
-.categories button.active{background:#ffcc00;color:#000}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px;padding:15px}
-.card{background:#1a1a1a;border-radius:12px;overflow:hidden;cursor:pointer}
-.card img{width:100%;height:230px;object-fit:cover}
-.card-info{padding:10px}
-.card-info h3{font-size:15px;margin-bottom:5px}
-.card-info p{font-size:12px;color:#aaa}
-.badge{background:#ffcc00;color:#000;font-size:11px;padding:2px 6px;border-radius:5px;font-weight:bold}
-/* Detail Popup */
-#detail{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);padding:20px;overflow-y:auto}
-.detail-box{background:#1a1a1a;max-width:600px;margin:auto;border-radius:15px;overflow:hidden}
-.detail-box img{width:100%;height:300px;object-fit:cover}
-.detail-info{padding:20px}
-.download-btn{display:block;background:#ffcc00;color:#000;text-align:center;padding:14px;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:15px;font-size:18px}
-.close-btn{background:#333;color:#fff;border:none;padding:10px 20px;border-radius:8px;margin-top:10px;width:100%;cursor:pointer}
-footer{text-align:center;padding:20px;color:#777;font-size:13px}
+:root{--bg:#080b12;--panel:#111827;--panel2:#151f30;--text:#f4f7fb;--muted:#9aa8bb;--accent:#12d6c5;--accent2:#5b8cff;--line:rgba(255,255,255,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% -10%,rgba(18,214,197,.13),transparent 34%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}.wrap{width:min(1160px,92%);margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(8,11,18,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:25px;font-weight:900;letter-spacing:-1px}.brand span{color:var(--accent)}.navlinks{display:flex;align-items:center;gap:24px;color:#c3ccda;font-size:14px}.navlinks a:hover{color:var(--accent)}
+.join{background:linear-gradient(135deg,#13bfae,#087d9c);padding:11px 17px;border-radius:10px;font-weight:800;color:#031416;box-shadow:0 6px 25px #12d6c533}
+.hero{padding:66px 0 42px}.hero-box{position:relative;overflow:hidden;min-height:330px;border:1px solid rgba(18,214,197,.2);border-radius:25px;background:linear-gradient(105deg,rgba(8,11,18,.97) 5%,rgba(8,11,18,.78) 55%,rgba(8,11,18,.35)),radial-gradient(circle at 80% 40%,#145c65,transparent 40%),linear-gradient(135deg,#172c3d,#111827);padding:54px 6%;display:flex;align-items:center}
+.hero-box:after{content:"🎬";position:absolute;right:8%;top:50%;transform:translateY(-50%) rotate(-12deg);font-size:clamp(100px,19vw,210px);opacity:.16;filter:drop-shadow(0 15px 35px #12d6c5)}
+.hero-content{position:relative;z-index:1;max-width:650px}.eyebrow{color:var(--accent);font-size:12px;font-weight:900;letter-spacing:2.5px;text-transform:uppercase}.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.08;margin:14px 0}.hero p{color:#c0cbd8;line-height:1.8;max-width:560px;margin:0 0 25px}.search{display:flex;max-width:570px;background:#fff;border-radius:12px;padding:5px;box-shadow:0 12px 35px #0008}.search input{min-width:0;flex:1;border:0;outline:0;padding:13px 14px;font-size:15px;color:#17202d;background:transparent}.search button{border:0;border-radius:9px;padding:0 22px;background:var(--accent);font-weight:900;color:#04201e;cursor:pointer}
+.section{padding:25px 0 55px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:20px}.section h2{font-size:25px;margin:0}.section-head p{color:var(--muted);font-size:13px;margin:7px 0 0}.filters{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0 25px}.filter{border:1px solid var(--line);background:#111827;color:#c4cfdd;padding:9px 16px;border-radius:999px;cursor:pointer;font-weight:700;font-size:13px;transition:.25s}.filter:hover,.filter.active{background:var(--accent);color:#061817;border-color:var(--accent);box-shadow:0 0 20px #12d6c544}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.movie{overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,#151f30,#0e1420);border-radius:16px;transition:transform .25s,border-color .25s,box-shadow .25s}.movie:hover{transform:translateY(-6px);border-color:#12d6c577;box-shadow:0 14px 35px #0008,0 0 22px #12d6c51a}.poster{height:175px;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#1d6670,#172638 55%,#111827);font-size:54px;position:relative}.poster:after{content:"SUBLANKA";position:absolute;bottom:12px;left:14px;font-size:10px;letter-spacing:3px;color:#ffffff99;font-weight:900}.movie-info{padding:15px}.tag{display:inline-block;font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);background:#12d6c51a;border:1px solid #12d6c533;border-radius:5px;padding:4px 7px;font-weight:800}.movie h3{font-size:16px;margin:11px 0 5px}.movie p{font-size:12px;color:var(--muted);margin:0 0 14px}.download{width:100%;border:1px solid #12d6c566;background:#12d6c51a;color:#8af5e9;border-radius:9px;padding:10px;font-weight:800;cursor:pointer;transition:.2s}.download:hover{background:var(--accent);color:#061817}
+.empty{grid-column:1/-1;text-align:center;padding:45px 15px;color:var(--muted);border:1px dashed var(--line);border-radius:15px}
+.note{background:linear-gradient(120deg,#101e2b,#101827);border:1px solid var(--line);padding:22px;border-radius:15px;color:#b9c6d5;line-height:1.7;margin-top:12px}.note strong{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:20px;z-index:50}.modal.show{display:grid}.modal-box{width:min(440px,100%);background:#121b29;border:1px solid #12d6c566;border-radius:18px;padding:25px;box-shadow:0 20px 70px #000b}.modal-box h3{margin:0 0 10px}.modal-box p{color:var(--muted);line-height:1.6;font-size:14px}.modal-actions{display:flex;gap:10px;margin-top:20px}.modal-actions button,.modal-actions a{flex:1;text-align:center;border:0;border-radius:9px;padding:11px;font-weight:800;cursor:pointer}.primary{background:var(--accent);color:#061817}.secondary{background:#253247;color:#fff}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-box{min-height:300px}}
+@media(max-width:650px){.nav{height:65px}.navlinks{gap:12px;font-size:12px}.navlinks .hide{display:none}.brand{font-size:22px}.join{padding:9px 11px;font-size:12px}.hero{padding:30px 0 20px}.hero-box{padding:35px 7%;min-height:320px}.hero-box:after{right:-3%;opacity:.11}.search button{padding:0 14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.poster{height:145px}.movie-info{padding:12px}.movie h3{font-size:14px}.section h2{font-size:21px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.poster{height:190px}.navlinks{gap:8px}}
 </style>
 </head>
 <body>
-
-<header>
-<h1>Sub<span>Lanka</span> 🇱🇰</h1>
-<p>සිංහල උපසිරැසි | Sinhala Subtitles</p>
-</header>
-
-<div class="search-box">
-<input type="text" id="search" placeholder="Film එකේ නම search කරන්න..." onkeyup="searchMovie()">
-<button onclick="searchMovie()">Search</button>
+<header><div class="wrap nav">
+<a class="brand" href="#">SUB<span>LANKA</span> 🇱🇰</a>
+<nav class="navlinks"><a href="#subtitles">Subtitles</a><a class="hide" href="#about">About</a><a class="join" href="https://whatsapp.com/" target="_blank" rel="noopener">WhatsApp Channel ↗</a></nav>
+</div></header>
+<main>
+<section class="hero"><div class="wrap"><div class="hero-box"><div class="hero-content">
+<div class="eyebrow">Sinhala subtitles • Sri Lanka</div>
+<h1>ඔබේ ප්‍රියතම Films<br>සිංහලෙන් රසවිඳින්න.</h1>
+<p>අලුත්ම සහ ජනප්‍රිය චිත්‍රපට සඳහා සිංහල උපසිරැසි පහසුවෙන් සොයාගන්න. ඔබට අවශ්‍ය Film එක මෙතැනින් Search කරන්න.</p>
+<form class="search" id="searchForm"><input id="searchInput" type="search" placeholder="Film එකේ නම search කරන්න..." aria-label="Search subtitles"><button type="submit">Search</button></form>
+</div></div></div></section>
+<section class="section wrap" id="subtitles">
+<div class="section-head"><div><div class="eyebrow">Explore collection</div><h2>සිංහල උපසිරැසි</h2><p>ඔබ කැමති category එක තෝරන්න</p></div></div>
+<div class="filters" id="filters">
+<button class="filter active" data-category="All">All</button><button class="filter" data-category="Hollywood">Hollywood</button><button class="filter" data-category="Bollywood">Bollywood</button><button class="filter" data-category="Animation">Animation</button><button class="filter" data-category="Sinhala">Sinhala</button>
 </div>
-
-<a class="wa-btn" href="https://whatsapp.com/channel/YOUR_LINK" target="_blank">📢 WhatsApp Channel එකට Join වෙන්න</a>
-
-<div class="categories">
-<button class="active" onclick="filterCat('all',this)">All</button>
-<button onclick="filterCat('Hollywood',this)">Hollywood</button>
-<button onclick="filterCat('Bollywood',this)">Bollywood</button>
-<button onclick="filterCat('Animation',this)">Animation</button>
-<button onclick="filterCat('Sinhala',this)">Sinhala</button>
+<div class="grid" id="movieGrid">
+<div class="empty">ඔබගේ subtitle ලැයිස්තුව මෙහි පෙන්වනු ඇත. Admin / content data එක සම්බන්ධ කළ පසු films මෙතැනට එක් කළ හැක.</div>
 </div>
-
-<div class="grid" id="movieGrid"></div>
-
-<div id="detail">
-<div class="detail-box">
-<img id="d-img" src="">
-<div class="detail-info">
-<h2 id="d-title"></h2>
-<p id="d-meta" style="color:#aaa;margin:8px 0"></p>
-<p id="d-story"></p>
-<a id="d-download" class="download-btn" href="#" download>⬇️ SUBTITLE DOWNLOAD</a>
-<button class="close-btn" onclick="closeDetail()">Close</button>
-</div>
-</div>
-</div>
-
-<footer>© 2026 SubLanka - Original Subtitles Only</footer>
-
+<div class="note" id="about"><strong>SubLanka 🇱🇰</strong><br>සිංහල උපසිරැසි සොයන ඔබ වෙනුවෙන් නිර්මාණය කළ සරල සහ පහසු වෙබ් අඩවියක්. මෙහි ඔබට අවශ්‍ය subtitle එක සොයාගෙන, ලබාගත හැකි නිල download link එක භාවිතා කරන්න.</div>
+</section>
+</main>
+<footer><div class="wrap foot"><span>© 2026 SubLanka. All rights reserved.</span><span>Made for Sinhala subtitle fans 🇱🇰</span></div></footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-box"><h3 id="modalTitle">Subtitle Download</h3><p id="modalText">මෙම subtitle එක සඳහා download link එකක් තවම එක් කර නැත.</p><div class="modal-actions"><button class="secondary" id="closeModal">Close</button></div></div></div>
 <script>
-const movies = [
-{title:"Spider-Man: No Way Home",year:"2021",cat:"Hollywood",rating:"8.2",lang:"Sinhala",img:"https://via.placeholder.com/300x400?text=Spider-Man",story:"Peter Parker ගේ ලෝකය වෙනස් වෙන කතාව...",file:"subtitles/spiderman.srt"},
-{title:"Avengers: Endgame",year:"2019",cat:"Hollywood",rating:"8.4",lang:"Sinhala",img:"https://via.placeholder.com/300x400?text=Avengers",story:"Avengers ලා Thanos ව නවත්තන්න කරන අවසන් සටන...",file:"subtitles/avengers.srt"},
-{title:"3 Idiots",year:"2009",cat:"Bollywood",rating:"8.4",lang:"Sinhala",img:"https://via.placeholder.com/300x400?text=3+Idiots",story:"යාලුවො තුන් දෙනෙක්ගේ කතාව...",file:"subtitles/3idiots.srt"},
-];
-
-function showMovies(list){
-let grid=document.getElementById('movieGrid');
-grid.innerHTML="";
-list.forEach((m,i)=>{
-grid.innerHTML+=`<div class="card" onclick="openDetail(${movies.indexOf(m)})"><img src="${m.img}"><div class="card-info"><h3>${m.title}</h3><p>${m.year} | ${m.cat} | ⭐ ${m.rating}</p><span class="badge">${m.lang} Subtitle</span></div></div>`;
-});
+const input=document.getElementById('searchInput');
+const grid=document.getElementById('movieGrid');
+const filters=[...document.querySelectorAll('.filter')];
+let activeCategory='All';
+let subtitles=[]; // Add your own subtitle records here: {title, category, year, link, icon}
+function render(){
+ const q=input.value.trim().toLowerCase();
+ const items=subtitles.filter(x=>(activeCategory==='All'||x.category===activeCategory)&&x.title.toLowerCase().includes(q));
+ if(!items.length){grid.innerHTML='<div class="empty">දැනට ගැළපෙන subtitle එකක් නැහැ. පසුව නැවත උත්සාහ කරන්න.</div>';return;}
+ grid.innerHTML=items.map((x,i)=>`<article class="movie"><div class="poster">${x.icon||'🎞️'}</div><div class="movie-info"><span class="tag">${x.category}</span><h3>${escapeHTML(x.title)}</h3><p>${x.year||'Sinhala Subtitle'}</p><button class="download" data-index="${i}">⬇ SUBTITLE DOWNLOAD</button></div></article>`).join('');
+ [...grid.querySelectorAll('.download')].forEach(btn=>btn.addEventListener('click',()=>{const item=items[Number(btn.dataset.index)];if(item.link){window.open(item.link,'_blank','noopener');}else{document.getElementById('modal').classList.add('show');}}));
 }
-function openDetail(i){
-let m=movies[i];
-document.getElementById('d-img').src=m.img;
-document.getElementById('d-title').innerText=m.title;
-document.getElementById('d-meta').innerText=`${m.year} | ${m.cat} | ⭐ ${m.rating} | ${m.lang}`;
-document.getElementById('d-story').innerText=m.story;
-document.getElementById('d-download').href=m.file;
-document.getElementById('detail').style.display='block';
-}
-function closeDetail(){document.getElementById('detail').style.display='none'}
-function searchMovie(){
-let q=document.getElementById('search').value.toLowerCase();
-showMovies(movies.filter(m=>m.title.toLowerCase().includes(q)));
-}
-function filterCat(cat,btn){
-document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-if(cat=='all') showMovies(movies);
-else showMovies(movies.filter(m=>m.cat==cat));
-}
-showMovies(movies);
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeCategory=btn.dataset.category;render();}));
+document.getElementById('searchForm').addEventListener('submit',e=>{e.preventDefault();render();});
+input.addEventListener('input',render);
+document.getElementById('closeModal').addEventListener('click',()=>document.getElementById('modal').classList.remove('show'));
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')e.currentTarget.classList.remove('show');});
+render();
 </script>
-</body>
-</html>
+</body></html>'''
+path = Path("/mnt/data/SubLanka-Redesign.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created: {path} ({path.stat().st_size:,} bytes)")
