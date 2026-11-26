@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SubLanka - Sinhala Subtitles</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0f0f0f;color:#fff}
+header{background:#000;padding:15px;text-align:center;position:sticky;top:0;z-index:10;border-bottom:3px solid #ffcc00}
+header h1{color:#ffcc00;font-size:28px}
+header h1 span{color:#fff}
+.search-box{margin:15px auto;max-width:500px;display:flex}
+.search-box input{flex:1;padding:12px;border:none;border-radius:8px 0 0 8px;outline:none;font-size:16px}
+.search-box button{padding:12px 20px;background:#ffcc00;border:none;border-radius:0 8px 8px 0;font-weight:bold;cursor:pointer}
+.wa-btn{display:block;background:#25D366;color:#fff;text-align:center;padding:12px;margin:10px 15px;border-radius:10px;text-decoration:none;font-weight:bold}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:10px 15px}
+.categories button{background:#222;color:#fff;border:1px solid #444;padding:8px 15px;border-radius:20px;cursor:pointer;white-space:nowrap}
+.categories button.active{background:#ffcc00;color:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px;padding:15px}
+.card{background:#1a1a1a;border-radius:12px;overflow:hidden;cursor:pointer}
+.card img{width:100%;height:230px;object-fit:cover}
+.card-info{padding:10px}
+.card-info h3{font-size:15px;margin-bottom:5px}
+.card-info p{font-size:12px;color:#aaa}
+.badge{background:#ffcc00;color:#000;font-size:11px;padding:2px 6px;border-radius:5px;font-weight:bold}
+/* Detail Popup */
+#detail{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);padding:20px;overflow-y:auto}
+.detail-box{background:#1a1a1a;max-width:600px;margin:auto;border-radius:15px;overflow:hidden}
+.detail-box img{width:100%;height:300px;object-fit:cover}
+.detail-info{padding:20px}
+.download-btn{display:block;background:#ffcc00;color:#000;text-align:center;padding:14px;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:15px;font-size:18px}
+.close-btn{background:#333;color:#fff;border:none;padding:10px 20px;border-radius:8px;margin-top:10px;width:100%;cursor:pointer}
+footer{text-align:center;padding:20px;color:#777;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Sub<span>Lanka</span> 🇱🇰</h1>
+<p>සිංහල උපසිරැසි | Sinhala Subtitles</p>
+</header>
+
+<div class="search-box">
+<input type="text" id="search" placeholder="Film එකේ නම search කරන්න..." onkeyup="searchMovie()">
+<button onclick="searchMovie()">Search</button>
+</div>
+
+<a class="wa-btn" href="https://whatsapp.com/channel/YOUR_LINK" target="_blank">📢 WhatsApp Channel එකට Join වෙන්න</a>
+
+<div class="categories">
+<button class="active" onclick="filterCat('all',this)">All</button>
+<button onclick="filterCat('Hollywood',this)">Hollywood</button>
+<button onclick="filterCat('Bollywood',this)">Bollywood</button>
+<button onclick="filterCat('Animation',this)">Animation</button>
+<button onclick="filterCat('Sinhala',this)">Sinhala</button>
+</div>
+
+<div class="grid" id="movieGrid"></div>
+
+<div id="detail">
+<div class="detail-box">
+<img id="d-img" src="">
+<div class="detail-info">
+<h2 id="d-title"></h2>
+<p id="d-meta" style="color:#aaa;margin:8px 0"></p>
+<p id="d-story"></p>
+<a id="d-download" class="download-btn" href="#" download>⬇️ SUBTITLE DOWNLOAD</a>
+<button class="close-btn" onclick="closeDetail()">Close</button>
+</div>
+</div>
+</div>
+
+<footer>© 2026 SubLanka - Original Subtitles Only</footer>
+
+<script>
+const movies = [
+{title:"Spider-Man: No Way Home",year:"2021",cat:"Hollywood",rating:"8.2",lang:"Sinhala",img:"https://via.placeholder.com/300x400?text=Spider-Man",story:"Peter Parker ගේ ලෝකය වෙනස් වෙන කතාව...",file:"subtitles/spiderman.srt"},
+{title:"Avengers: Endgame",year:"2019",cat:"Hollywood",rating:"8.4",lang:"Sinhala",img:"https://via.placeholder.com/300x400?text=Avengers",story:"Avengers ලා Thanos ව නවත්තන්න කරන අවසන් සටන...",file:"subtitles/avengers.srt"},
+{title:"3 Idiots",year:"2009",cat:"Bollywood",rating:"8.4",lang:"Sinhala",img:"https://via.placeholder.com/300x400?text=3+Idiots",story:"යාලුවො තුන් දෙනෙක්ගේ කතාව...",file:"subtitles/3idiots.srt"},
+];
+
+function showMovies(list){
+let grid=document.getElementById('movieGrid');
+grid.innerHTML="";
+list.forEach((m,i)=>{
+grid.innerHTML+=`<div class="card" onclick="openDetail(${movies.indexOf(m)})"><img src="${m.img}"><div class="card-info"><h3>${m.title}</h3><p>${m.year} | ${m.cat} | ⭐ ${m.rating}</p><span class="badge">${m.lang} Subtitle</span></div></div>`;
+});
+}
+function openDetail(i){
+let m=movies[i];
+document.getElementById('d-img').src=m.img;
+document.getElementById('d-title').innerText=m.title;
+document.getElementById('d-meta').innerText=`${m.year} | ${m.cat} | ⭐ ${m.rating} | ${m.lang}`;
+document.getElementById('d-story').innerText=m.story;
+document.getElementById('d-download').href=m.file;
+document.getElementById('detail').style.display='block';
+}
+function closeDetail(){document.getElementById('detail').style.display='none'}
+function searchMovie(){
+let q=document.getElementById('search').value.toLowerCase();
+showMovies(movies.filter(m=>m.title.toLowerCase().includes(q)));
+}
+function filterCat(cat,btn){
+document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+if(cat=='all') showMovies(movies);
+else showMovies(movies.filter(m=>m.cat==cat));
+}
+showMovies(movies);
+</script>
+</body>
+</html>
